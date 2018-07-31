@@ -4,125 +4,111 @@ import ecs100.*;
 
 public class ContactList {
 
-	private static ArrayList<Contact> contacts=new ArrayList<>();
+	private ArrayList<Contact> contacts=new ArrayList<>();
+	private double pressedX;
+	private double pressedY;
 	
 	public ContactList() {
+		UI.initialise();
+		UI.setMouseListener(this::doMouse);
+		UI.addButton("New Contact", this::addContact);
+		UI.addTextField("Search for contact", this::findContact);
+		UI.addTextField("Full contact info", this::fullInfo);
+		UI.addButton("List all contact names", this::listContacts);
+		UI.addButton("Change info", this::changeInfo);
+		//UI.addTextField("check", this::listen);
+		UI.addButton("Quit", UI::quit);
 		
+		addSampleData();
 	}
+	
+//	public void listen(String word) {
+//		findCon(word);
+//	}
+//	
+//	public void findCon(String name) {
+//		for(int i=0;i<contacts.size();i++) {
+//			if(name.equalsIgnoreCase(contacts.get(i).getName())) {
+//				contacts.get(i).toString();
+//				break;
+//			}
+//		}
+//	}
 	
 	public static void main(String[] args) {
-		addContact();
+		new ContactList();
 	}
 	
-	public static void addContact() {
-		Contact temp=new Contact();
-		temp.newContact();
-		contacts.add(temp);
+	public void addContact() {
+		//UI.addButton("Friend? ", this::addFriend);
+		String ans=UI.askString("What kind of contact? ");
+		if(ans.equalsIgnoreCase("Friend")) {
+			contacts.add(new Friend());
+		} else if(ans.equalsIgnoreCase("Family")){
+			contacts.add(new Family());
+		}else {
+			contacts.add(new Contact());
+		}
+//		Contact temp=new Contact();
+//		temp.newContact();
+//		contacts.add(temp);
+	}
+	
+	public void doMouse(String mouseAction, double x, double y) {
+		if(mouseAction.equals("pressed")) {
+			this.pressedX=x;
+			this.pressedY=y;
+		}
+	}
+
+	public void findContact(String ans) {
+		//String ans=UI.askString("Who do you want to find? ");
+		for(int i=0;i<contacts.size();i++) {
+			if(ans.equalsIgnoreCase(contacts.get(i).getName())) {
+				contacts.get(i).toString();
+				break;
+			}
+		}
+	}
+	
+	public void fullInfo(String ans) {
+		//String ans=UI.askString("Who do you want to find? ");
+		for(int i=0;i<contacts.size();i++) {
+			if(ans.equalsIgnoreCase(contacts.get(i).getName())) {
+				contacts.get(i).fullInfo();
+				break;
+			}
+		}
+	}
+	
+	public void listContacts() {
+		for(int i=0;i<contacts.size();i++) {
+			UI.println(contacts.get(i).getName());
+		}
+	}
+	
+	public boolean inList(String name) {
+		//boolean exists=false;
+		for(int i=0;i<contacts.size();i++) {
+			if(name.equalsIgnoreCase(contacts.get(i).getName())) {
+				return true;
+				
+			}
+		}
+		return false;
+	}
+	
+	public void changeInfo() {
 		
 	}
-
 	
+	//public Contact(String na, String num, String em, String ad) {
+	public void addSampleData() {
+		contacts.add(new Friend("abel","1","1@a","1 st","1/1"));
+		contacts.add(new Family("bob","2","2@b","2 st","bairn","2/2"));
+		contacts.add(new Contact("cain","3","3@c","3 st"));
+		contacts.add(new Friend("dylan","4","4@d","4 st","4/4"));
+		
+	}
 	
 } //end class
-
-//
-//import java.awt.*;
-//import java.awt.event.*;
-//import javax.swing.*;
-//import javax.swing.border.*;
-//
-//class JavaPaintUI extends JFrame {
-//
-//    private int tool = 1;
-//    int currentX, currentY, oldX, oldY;
-//
-//    public JavaPaintUI() {
-//        initComponents();
-//    }
-//
-//    private void initComponents() {
-//        // we want a custom Panel2, not a generic JPanel!
-//        jPanel2 = new Panel2();
-//
-//        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-//        jPanel2.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-//        jPanel2.addMouseListener(new MouseAdapter() {
-//            public void mousePressed(MouseEvent evt) {
-//                jPanel2MousePressed(evt);
-//            }
-//            public void mouseReleased(MouseEvent evt) {
-//                jPanel2MouseReleased(evt);
-//            }
-//        });
-//        jPanel2.addMouseMotionListener(new MouseMotionAdapter() {
-//            public void mouseDragged(MouseEvent evt) {
-//                jPanel2MouseDragged(evt);
-//            }
-//        });
-//
-//        // add the component to the frame to see it!
-//        this.setContentPane(jPanel2);
-//        // be nice to testers..
-//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        pack();
-//    }// </editor-fold>
-//
-//    private void jPanel2MouseDragged(MouseEvent evt) {
-//        if (tool == 1) {
-//            currentX = evt.getX();
-//            currentY = evt.getY();
-//            oldX = currentX;
-//            oldY = currentY;
-//            System.out.println(currentX + " " + currentY);
-//            System.out.println("PEN!!!!");
-//        }
-//    }
-//
-//    private void jPanel2MousePressed(MouseEvent evt) {
-//        oldX = evt.getX();
-//        oldY = evt.getY();
-//        System.out.println(oldX + " " + oldY);
-//    }
-//
-//
-//    //mouse released//
-//    private void jPanel2MouseReleased(MouseEvent evt) {
-//        if (tool == 2) {
-//            currentX = evt.getX();
-//            currentY = evt.getY();
-//            System.out.println("line!!!! from" + oldX + "to" + currentX);
-//        }
-//    }
-//
-//    //set ui visible//
-//    public static void main(String args[]) {
-//        EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new JavaPaintUI().setVisible(true);
-//            }
-//        });
-//    }
-//
-//    // Variables declaration - do not modify
-//    private JPanel jPanel2;
-//    // End of variables declaration
-//
-//    // This class name is very confusing, since it is also used as the
-//    // name of an attribute!
-//    //class jPanel2 extends JPanel {
-//    class Panel2 extends JPanel {
-//
-//        Panel2() {
-//            // set a preferred size for the custom panel.
-//            setPreferredSize(new Dimension(420,420));
-//        }
-//
-//        @Override
-//        public void paintComponent(Graphics g) {
-//            super.paintComponent(g);
-//
-//            g.drawString("BLAH", 20, 20);
-//            g.drawRect(200, 200, 200, 200);
-//        }
-//    }
-//}

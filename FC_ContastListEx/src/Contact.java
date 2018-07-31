@@ -2,73 +2,81 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 
+import ecs100.UI;
+
 public class Contact {
 
-	//variables
-	private String name;
-	private String number; //because may need the zeros on the front
-	private String email;
-	private String addy;
-	private String bday; //maybe need to ensure consistant formatting?
-	private String gstnum;
-	private ArrayList<String> employers;
-	private ArrayList<String> employees;
-	private ArrayList<String> relationships;
-	private ArrayList<String> notes; 
+	//common variables
+	protected String name;
+	protected String number; //because may need the zeros on the front
+	protected String email;
+	protected String addy;
+	//private String bday; //maybe need to ensure consistent formatting?
+	//private String gstnum;
+	//private ArrayList<String> employers;
+	//private ArrayList<String> employees;
+	//private ArrayList<String> relationships;
+	protected ArrayList<String> notes; 
 	
 	public Contact() {
+		this.name=UI.askString("What is their name? ");
+		this.number=UI.askString("What is their number? ");
+		this.setEmail(UI.askString("What is their email? "));
+		this.setAddy(UI.askString("What is their address? "));
+		
+		//UI.println(this.name+" has been added to the contact list");
 		
 	}
+	
+	public Contact(String na, String num, String em, String ad) {
+		this.name=na;
+		this.number=num;
+		this.setEmail(em);
+		this.setAddy(ad);
+	}
+	
+	public String toString() {
+		UI.println("The contact "+this.name+" has the email "+this.getEmail());
+		//System.out.println("");
+		return null;
+	}
+	
+	public void fullInfo() {
+		UI.println("Name: "+this.name);
+		UI.println("Number: "+this.number);
+		UI.println("Email: "+this.getEmail());
+		UI.println("Address: "+this.getAddy());
+		
+	}
+	
+	public void setName(String na) {
+		this.name=na;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setNumber(String num) {
+		this.number=num;
+	}
+	
+	public String getNumber() {
+		return this.number;
+	}
+	
 	
 	public void newContact() {
-		System.out.print("What is their name? ");
-		Scanner scan=new Scanner (System.in);
-		this.name=scan.next();
+		this.name=UI.askString("What is their name? ");
+		this.number=UI.askString("What is their number? ");
+		this.setEmail(UI.askString("What is their email? "));
+		this.setAddy(UI.askString("What is their address? "));
 		
-		System.out.print("What is their number? ");
-		scan=new Scanner (System.in);
-		this.number=scan.next();
-		
-		System.out.print("What is their email? ");
-		scan=new Scanner (System.in);
-		this.email=scan.next();
-		
-		System.out.print("What is their postal address? ");
-		scan=new Scanner (System.in);
-		this.addy=scan.next();
-		
-		System.out.print("What is their birthday? ");
-		scan=new Scanner (System.in);
-		this.bday=scan.next();
-
-		System.out.print("What is their gstNum ");
-		scan=new Scanner (System.in);
-		this.gstnum=scan.next();
-		
-		scan.close();
-		System.out.println(this.name+" has been added to the contact list");
-	}
-
-	
-	//=================getters and setters =====================================
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
+		UI.println(this.name+" has been added to the contact list");
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -76,61 +84,13 @@ public class Contact {
 	}
 
 	public String getAddy() {
-		return addy;
+		return this.addy;
 	}
 
 	public void setAddy(String addy) {
 		this.addy = addy;
 	}
 
-	public String getBday() {
-		return bday;
-	}
-
-	public void setBday(String bday) {
-		this.bday = bday;
-	}
-
-	public String getGstnum() {
-		return gstnum;
-	}
-
-	public void setGstnum(String gstnum) {
-		this.gstnum = gstnum;
-	}
-
-	public ArrayList<String> getEmployers() {
-		return employers;
-	}
-
-	public void setEmployers(ArrayList<String> employers) {
-		this.employers = employers;
-	}
-
-	public ArrayList<String> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(ArrayList<String> employees) {
-		this.employees = employees;
-	}
-
-	public ArrayList<String> getRelationships() {
-		return relationships;
-	}
-
-	public void setRelationships(ArrayList<String> relationships) {
-		this.relationships = relationships;
-	}
-
-	public ArrayList<String> getNotes() {
-		return notes;
-	}
-
-	public void setNotes(ArrayList<String> notes) {
-		this.notes = notes;
-	}
-	
 	
 	
 } //end class
